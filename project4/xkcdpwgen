@@ -1,0 +1,73 @@
+#!/usr/bin/env python3
+import argparse
+import random
+
+help_string = """
+optional arguments:
+    -h, --help            show this help message and exit
+    -w WORDS, --words WORDS
+                          include WORDS words in the password (default=4)
+    -c CAPS, --caps CAPS  capitalize the first letter of CAPS random words
+                          (default=0)
+    -n NUMBERS, --numbers NUMBERS
+                          insert NUMBERS random numbers in the password
+                          (default=0)
+    -s SYMBOLS, --symbols SYMBOLS
+                          insert SYMBOLS random symbols in the password
+                          (default=0)
+"""
+symbols_string = "~!@#$%^&*.:;"
+# create new parser for reading input flags 
+parser = argparse.ArgumentParser(
+    description="flags for xkcd password generation", add_help=False)
+
+parser.add_argument("-h", "--help", action='store_true',
+                    help='help flag')
+
+parser.add_argument("-w", "--words", metavar='words', type=int,
+                   help='number of words requested in password', default=4)
+
+parser.add_argument("-n", "--numbers", type=int,
+                   help='number of numbers requested in password', default=0)
+
+parser.add_argument("-s", "--symbols", type=int,
+                   help='number of symbols requested in password', default=0)
+
+
+parser.add_argument("-c", "--caps", type=int,
+                   help='number of capitals requested in password', default=0)
+
+args = parser.parse_args()
+
+help = args.help
+words = args.words
+caps = args.caps
+numbers = args.numbers
+symbols = args.symbols
+
+if (help):
+    print(help_string)
+    exit()
+
+with open("corncob_lowercase.txt", "r") as file:
+    allText = file.read()
+    words_list =list(map(str, allText.split()))
+
+output_list = random.choices(words_list, k=words)
+
+for x in range(0, min(caps, words)):
+    output_list[x] = output_list[x].capitalize()
+
+random.shuffle(output_list)
+
+for x in range(0, numbers):
+    output_list.append(str(random.randint(0, 9)))
+
+random.shuffle(output_list)    
+
+for x in range(0, symbols):
+    output_list.append(random.choice(symbols_string))
+
+random.shuffle(output_list)
+
+print(''.join(output_list))
