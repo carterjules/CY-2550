@@ -1,0 +1,23 @@
+
+abi <abi/3.0>,
+
+include <tunables/global>
+
+/home/carterjules/CY-2550/project6/p2 flags=(audit) {
+  include <abstractions/base>
+
+  /home/carterjules/CY-2550/project6/p2 mr,
+  /tmp/project2* rw,
+  /home/carterjules/.project2/config rw,
+  /var/log/syslog r,
+  /etc/fstab r,
+  /proc/version r,
+  /proc/buddyinfo r,
+  /etc/crontab r,
+  /etc/hosts rw,
+  /etc/passwd rw,
+  /run/systemd/resolve/stub-resolv.conf r,
+  /home/carterjules/CY-2550/project6/template r,
+
+  network,
+}
